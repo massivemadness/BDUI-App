@@ -96,7 +96,8 @@ internal class WidgetsRepositoryImpl : WidgetsRepository {
             }
         """.trimIndent()
 
-        val dto = Json.decodeFromString<ScreenDto>(json)
+        val jsonParser = Json { ignoreUnknownKeys = true }
+        val dto = jsonParser.decodeFromString<ScreenDto>(json)
         return dto.toDomain()
     }
 
