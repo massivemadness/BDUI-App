@@ -1,5 +1,5 @@
 package com.app.bdui.core.domain.action
 
-internal data class SyncStateAction(val widgetId: String) : Action {
+internal data object SyncStateAction : Action {
     override val type = ActionType.SYNC_STATE
 }

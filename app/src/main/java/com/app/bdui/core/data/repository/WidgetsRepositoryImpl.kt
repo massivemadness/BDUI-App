@@ -5,8 +5,10 @@ import com.app.bdui.core.data.network.widget.ScreenDto
 import com.app.bdui.core.domain.action.Action
 import com.app.bdui.core.domain.action.PushStateAction
 import com.app.bdui.core.domain.action.SnackbarAction
+import com.app.bdui.core.domain.action.SyncStateAction
 import com.app.bdui.core.domain.entity.Screen
 import com.app.bdui.core.domain.entity.StringValue
+import com.app.bdui.core.domain.evaluation.EvalContext
 import com.app.bdui.core.domain.repository.WidgetsRepository
 import kotlinx.coroutines.delay
 import kotlinx.serialization.json.Json
@@ -24,8 +26,8 @@ internal class WidgetsRepositoryImpl : WidgetsRepository {
               "content": {
                 "type": "column",
                 "modifier": [ 
-                    { "fill": "max_size" },
-                    { "padding": { "top": 72 } }
+                  { "fill": "max_size" },
+                  { "padding": { "top": 72 } }
                 ],
                 "children": [
                   {
@@ -42,7 +44,7 @@ internal class WidgetsRepositoryImpl : WidgetsRepository {
                   {
                     "type": "textfield",
                     "params": {
-                    "text": "$.text_field.phone",
+                      "text": "$.text_field.phone",
                       "enabled": true
                     },
                     "modifier": [
@@ -99,7 +101,7 @@ internal class WidgetsRepositoryImpl : WidgetsRepository {
         return dto.toDomain()
     }
 
-    override suspend fun dispatchAction(action: Action): List<Action> {
+    override suspend fun syncActions(action: SyncStateAction, ctx: EvalContext): List<Action> {
         delay(1000L)
         return listOf(
             PushStateAction("text_field.name", StringValue("")),

@@ -10,6 +10,7 @@ import com.app.bdui.core.data.network.widget.WidgetDto
 import com.app.bdui.core.domain.evaluation.Literal
 import com.app.bdui.core.domain.entity.BooleanValue
 import com.app.bdui.core.domain.entity.IntegerValue
+import com.app.bdui.core.domain.entity.NullValue
 import com.app.bdui.core.domain.entity.StringValue
 import com.app.bdui.core.domain.widget.BoxWidget
 import com.app.bdui.core.domain.widget.ButtonWidget
@@ -34,7 +35,7 @@ internal fun ScreenDto.toDomain(): Screen {
                 value.isString -> StringValue(value.content)
                 value.booleanOrNull != null -> BooleanValue(value.boolean)
                 value.intOrNull != null -> IntegerValue(value.int)
-                else -> error("Invalid value: $value")
+                else -> NullValue
             }
         },
         content = content.toDomain(),

@@ -5,6 +5,11 @@ import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.bdui.core.domain.action.Action
+import com.app.bdui.core.domain.action.GoBackAction
+import com.app.bdui.core.domain.action.NavigateAction
+import com.app.bdui.core.domain.action.PushStateAction
+import com.app.bdui.core.domain.action.SnackbarAction
+import com.app.bdui.core.domain.action.SyncStateAction
 import com.app.bdui.core.domain.evaluation.EvalContext
 import com.app.bdui.core.domain.evaluation.Reference
 import com.app.bdui.core.domain.repository.WidgetsRepository
@@ -24,9 +29,11 @@ import com.app.bdui.core.ui.widget.RowWidgetNode
 import com.app.bdui.core.ui.widget.TextFieldWidgetNode
 import com.app.bdui.core.ui.widget.TextWidgetNode
 import com.app.bdui.core.ui.widget.WidgetNode
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -36,6 +43,9 @@ internal class RenderViewModel(
 
     private val _viewState = MutableStateFlow<ViewState>(ViewState())
     val viewState = _viewState.asStateFlow()
+
+    private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
+    val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
     init {
         viewModelScope.launch {
@@ -93,7 +103,7 @@ internal class RenderViewModel(
                 modifier = widget.modifier,
                 text = widget.text.evalString(ctx, viewModelScope),
                 enabled = widget.enabled.evalBoolean(ctx, viewModelScope),
-                onClick = { handleAction(widget.onClick) }
+                onClick = { handleActions(widget.onClick, ctx) }
             )
 
             is TextFieldWidget -> TextFieldWidgetNode(
@@ -116,34 +126,34 @@ internal class RenderViewModel(
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private fun handleAction(actions: List<Action>) {
-        // TODO
-        /*flowOf(*actions.toTypedArray())
-            .flatMapConcat { action ->
-                when (action) {
-                    is GoBackAction -> {
-                        flowOf(action)
-                    }
-
-                    is NavigateAction -> {
-                        flowOf(action)
-                    }
-
-                    is PushStateAction -> {
-                        flowOf(action)
-                    }
-
-                    is SyncStateAction -> {
-                        flowOf(action)
-                    }
-
-                    is SnackbarAction -> {
-                        flowOf(action)
-                    }
-                }
+    private fun handleActions(actions: List<Action>, ctx: EvalContext) {
+        viewModelScope.launch {
+            for (action in actions) {
+                handleAction(action, ctx)
             }
-            .launchIn(viewModelScope)*/
+        }
+    }
+
+    private suspend fun handleAction(action: Action, ctx: EvalContext) {
+        when (action) {
+            is PushStateAction -> {
+                ctx.set(action.ref, action.value)
+            }
+            is SyncStateAction -> {
+                val actions = widgetsRepository.syncActions(action)
+                actions.forEach { handleAction(it, ctx) }
+            }
+            is NavigateAction -> {
+                _viewEvent.send(ViewEvent.Navigate(action.deeplink))
+            }
+            is GoBackAction -> {
+                _viewEvent.send(ViewEvent.PopBackStack)
+            }
+            is SnackbarAction -> {
+                _viewEvent.send(ViewEvent.ShowSnackbar(action.message))
+            }
+            else -> Unit
+        }
     }
 
     @Immutable
@@ -152,4 +162,10 @@ internal class RenderViewModel(
         val isLoading: Boolean = true,
         val isError: Boolean = false,
     )
+
+    sealed interface ViewEvent {
+        data class Navigate(val deeplink: String) : ViewEvent
+        data object PopBackStack : ViewEvent
+        data class ShowSnackbar(val message: String): ViewEvent
+    }
 }
