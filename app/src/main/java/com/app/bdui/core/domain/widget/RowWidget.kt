@@ -1,0 +1,12 @@
+package com.app.bdui.core.domain.widget
+
+import com.app.bdui.core.domain.widget.WidgetType
+import com.app.bdui.core.domain.modifier.ModifierFactory
+
+internal data class RowWidget(
+    override val id: String,
+    override val modifier: List<ModifierFactory>,
+    val children: List<Widget>,
+) : Widget {
+    override val type = WidgetType.ROW
+}
