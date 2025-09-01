@@ -9,5 +9,5 @@ internal data class ScreenDto(
     @SerialName("state")
     val state: Map<String, JsonPrimitive>,
     @SerialName("content")
-    val content: List<WidgetDto>,
+    val content: WidgetDto,
 )

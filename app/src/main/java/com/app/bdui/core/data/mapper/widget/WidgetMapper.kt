@@ -7,7 +7,6 @@ import com.app.bdui.core.data.network.action.ActionDto
 import com.app.bdui.core.data.network.modifier.base.ModifierDto
 import com.app.bdui.core.data.network.widget.ScreenDto
 import com.app.bdui.core.data.network.widget.WidgetDto
-import com.app.bdui.core.domain.action.Action
 import com.app.bdui.core.domain.evaluation.Literal
 import com.app.bdui.core.domain.entity.BooleanValue
 import com.app.bdui.core.domain.entity.IntegerValue
@@ -38,7 +37,7 @@ internal fun ScreenDto.toDomain(): Screen {
                 else -> error("Invalid value: $value")
             }
         },
-        content = content.map(WidgetDto::toDomain),
+        content = content.toDomain(),
     )
 }
 

@@ -21,78 +21,76 @@ internal class WidgetsRepositoryImpl : WidgetsRepository {
                 "text_field.phone": "+",
                 "submit.loading": false
               },
-              "content": [
-                {
-                  "type": "column",
-                  "modifier": [ 
-                      { "fill": "max_size" },
-                      { "padding": { "top": 72 } }
-                  ],
-                  "children": [
-                    {
-                      "type": "textfield",
-                      "params": {
-                        "text": "$.text_field.name",
-                        "enabled": true
-                      },
-                      "modifier": [
-                        { "fill": "max_width" },
-                        { "padding": 16 }
-                      ]
+              "content": {
+                "type": "column",
+                "modifier": [ 
+                    { "fill": "max_size" },
+                    { "padding": { "top": 72 } }
+                ],
+                "children": [
+                  {
+                    "type": "textfield",
+                    "params": {
+                      "text": "$.text_field.name",
+                      "enabled": true
                     },
-                    {
-                      "type": "textfield",
-                      "params": {
-                        "text": "$.text_field.phone",
-                        "enabled": true
-                      },
-                      "modifier": [
-                        { "fill": "max_width" },
-                        { "padding": 16 }
-                      ]
+                    "modifier": [
+                      { "fill": "max_width" },
+                      { "padding": 16 }
+                    ]
+                  },
+                  {
+                    "type": "textfield",
+                    "params": {
+                    "text": "$.text_field.phone",
+                      "enabled": true
                     },
-                    {
-                      "id": "button_submit",
-                      "type": "button",
-                      "params": {
-                        "text": "Submit",
-                        "enabled": {
-                          "and": [
-                            { "not": "$.submit.loading" },
-                            { "notEmpty": "$.text_field.name" },
-                            {
-                              "or": [
-                                { "equals": [ { "length": "$.text_field.phone" }, 10 ] },
-                                { "equals": [ { "length": "$.text_field.phone" }, 12 ] }
-                              ]
-                            }
-                          ]    
-                        },
-                        "onClick": [
+                    "modifier": [
+                      { "fill": "max_width" },
+                      { "padding": 16 }
+                    ]
+                  },
+                  {
+                    "id": "button_submit",
+                    "type": "button",
+                    "params": {
+                      "text": "Submit",
+                      "enabled": {
+                        "and": [
+                          { "not": "$.submit.loading" },
+                          { "notEmpty": "$.text_field.name" },
                           {
-                            "type": "push_state",
-                            "ref": "submit.loading",
-                            "value": true
-                          },
-                          {
-                            "type": "sync_state",
-                            "widget_id": "button_submit"
-                          },
-                          {
-                            "type": "push_state",
-                            "ref": "submit.loading",
-                            "value": false
+                            "or": [
+                              { "equals": [ { "length": "$.text_field.phone" }, 10 ] },
+                              { "equals": [ { "length": "$.text_field.phone" }, 12 ] }
+                            ]
                           }
-                        ]   
+                        ]    
                       },
-                      "modifier": [
-                        { "fill": "max_width" },
-                        { "padding": 16 }
-                      ]
-                    }
-                  ]
-                }
-              ]
+                      "onClick": [
+                        {
+                          "type": "push_state",
+                          "ref": "submit.loading",
+                          "value": true
+                        },
+                        {
+                          "type": "sync_state",
+                          "widget_id": "button_submit"
+                        },
+                        {
+                          "type": "push_state",
+                          "ref": "submit.loading",
+                          "value": false
+                        }
+                      ]   
+                    },
+                    "modifier": [
+                      { "fill": "max_width" },
+                      { "padding": 16 }
+                    ]
+                  }
+                ]
+              }
             }
         """.trimIndent()
 

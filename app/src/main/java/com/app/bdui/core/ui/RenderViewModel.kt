@@ -1,14 +1,10 @@
 package com.app.bdui.core.ui
 
 import android.util.Log
+import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.bdui.core.domain.action.Action
-import com.app.bdui.core.domain.action.GoBackAction
-import com.app.bdui.core.domain.action.NavigateAction
-import com.app.bdui.core.domain.action.PushStateAction
-import com.app.bdui.core.domain.action.SyncStateAction
-import com.app.bdui.core.domain.action.SnackbarAction
 import com.app.bdui.core.domain.evaluation.EvalContext
 import com.app.bdui.core.domain.evaluation.Reference
 import com.app.bdui.core.domain.repository.WidgetsRepository
@@ -31,30 +27,43 @@ import com.app.bdui.core.ui.widget.WidgetNode
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.flatMapConcat
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 internal class RenderViewModel(
     private val widgetsRepository: WidgetsRepository,
 ) : ViewModel() {
 
-    private val _widgets = MutableStateFlow<List<WidgetNode>>(emptyList())
-    val widgets = _widgets.asStateFlow()
+    private val _viewState = MutableStateFlow<ViewState>(ViewState())
+    val viewState = _viewState.asStateFlow()
 
     init {
         viewModelScope.launch {
             try {
-                // TODO loading state
+                _viewState.update {
+                    it.copy(
+                        isLoading = true,
+                        isError = false,
+                    )
+                }
 
                 val screen = widgetsRepository.loadScreen(screenId = "1")
                 val context = EvalContext(screen.state)
+                val widget = buildWidgetTree(screen.content, context)
 
-                _widgets.value = screen.content.map { buildWidgetTree(it, context) }
+                _viewState.value = ViewState(
+                    widget = widget,
+                    isLoading = false,
+                    isError = false,
+                )
             } catch (e: Exception) {
                 Log.e("RenderViewModel", e.message, e)
-                // TODO error state
+                _viewState.update {
+                    it.copy(
+                        isLoading = false,
+                        isError = true,
+                    )
+                }
             }
         }
     }
@@ -136,4 +145,11 @@ internal class RenderViewModel(
             }
             .launchIn(viewModelScope)*/
     }
+
+    @Immutable
+    data class ViewState(
+        val widget: WidgetNode? = null,
+        val isLoading: Boolean = true,
+        val isError: Boolean = false,
+    )
 }
