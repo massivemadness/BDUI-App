@@ -140,7 +140,7 @@ internal class RenderViewModel(
                 ctx.set(action.ref, action.value)
             }
             is SyncStateAction -> {
-                val actions = widgetsRepository.syncActions(action)
+                val actions = widgetsRepository.syncActions(action, ctx)
                 actions.forEach { handleAction(it, ctx) }
             }
             is NavigateAction -> {

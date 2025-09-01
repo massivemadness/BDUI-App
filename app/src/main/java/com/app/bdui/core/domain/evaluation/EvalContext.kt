@@ -16,6 +16,8 @@ internal class EvalContext(initial: Map<String, DynamicValue>) {
     }
 
     fun set(ref: String, value: DynamicValue) {
-        state[ref]?.value = value
+        state.getOrPut(ref) {
+            MutableStateFlow(value)
+        }.value = value
     }
 }
