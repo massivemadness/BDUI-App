@@ -110,7 +110,7 @@ internal class RenderViewModel(
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun handleAction(actions: List<Action>) {
         // TODO
-        flowOf(*actions.toTypedArray())
+        /*flowOf(*actions.toTypedArray())
             .flatMapConcat { action ->
                 when (action) {
                     is GoBackAction -> {
@@ -134,6 +134,6 @@ internal class RenderViewModel(
                     }
                 }
             }
-            .launchIn(viewModelScope)
+            .launchIn(viewModelScope)*/
     }
 }

@@ -12,11 +12,11 @@ import com.app.bdui.core.domain.action.UnsupportedAction
 
 internal fun ActionDto.toDomain(): Action {
     return when (ActionType.of(type)) {
-        ActionType.PUSH_STATE -> PushStateAction()
+        /*ActionType.PUSH_STATE -> PushStateAction()
         ActionType.SYNC_STATE -> SyncStateAction()
         ActionType.NAVIGATE -> NavigateAction()
         ActionType.GO_BACK -> GoBackAction
-        ActionType.SNACKBAR -> SnackbarAction()
+        ActionType.SNACKBAR -> SnackbarAction()*/
         else -> UnsupportedAction
     }
 }
