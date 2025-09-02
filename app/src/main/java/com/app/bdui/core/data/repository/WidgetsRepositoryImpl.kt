@@ -23,6 +23,35 @@ internal class WidgetsRepositoryImpl : WidgetsRepository {
                 "text_field.phone": "+",
                 "submit.loading": false
               },
+              "templates": {
+                "example_template": {
+                  "type": "column",
+                  "modifier": [
+                    { "fill": "max_width" },
+                    { "padding": { "horizontal": 16, "vertical": 12 } }
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "params": {
+                        "text": "$.title"
+                      },
+                      "modifier": [
+                        { "fill": "max_width" }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "params": {
+                        "text": "$.subtitle"
+                      },
+                      "modifier": [
+                        { "fill": "max_width" }
+                      ]
+                    }
+                  ]
+                }
+              },
               "content": {
                 "type": "column",
                 "modifier": [ 
@@ -90,6 +119,22 @@ internal class WidgetsRepositoryImpl : WidgetsRepository {
                       { "fill": "max_width" },
                       { "padding": 16 }
                     ]
+                  },
+                  {
+                    "type": "template",
+                    "name": "example_template",
+                    "data": {
+                      "title": "Title",
+                      "subtitle": "Subtitle"
+                    }
+                  },
+                  {
+                    "type": "template",
+                    "name": "example_template",
+                    "data": {
+                      "title": "Hello world!",
+                      "subtitle": "Hello template!"
+                    }
                   }
                 ]
               }

@@ -1,6 +1,7 @@
 package com.app.bdui.core.domain.widget
 
 internal enum class WidgetType(val value: String) {
+    TEMPLATE("template"),
     ROW("row"),
     COLUMN("column"),
     BOX("box"),

@@ -4,6 +4,7 @@ import com.app.bdui.core.data.network.params.ParamsDto
 import com.app.bdui.core.data.network.modifier.base.ModifierDto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonPrimitive
 
 @Serializable
 internal data class WidgetDto(
@@ -11,8 +12,12 @@ internal data class WidgetDto(
     val id: String? = null,
     @SerialName("type")
     val type: String? = null,
+    @SerialName("name")
+    val name: String? = null,
     @SerialName("params")
     val params: ParamsDto? = null,
+    @SerialName("data")
+    val data: Map<String, JsonPrimitive>? = null,
     @SerialName("modifier")
     val modifier: List<ModifierDto>? = null,
     @SerialName("children")

@@ -17,6 +17,7 @@ import com.app.bdui.core.domain.widget.BoxWidget
 import com.app.bdui.core.domain.widget.ButtonWidget
 import com.app.bdui.core.domain.widget.ColumnWidget
 import com.app.bdui.core.domain.widget.RowWidget
+import com.app.bdui.core.domain.widget.TemplateWidget
 import com.app.bdui.core.domain.widget.TextFieldWidget
 import com.app.bdui.core.domain.widget.TextWidget
 import com.app.bdui.core.domain.widget.Widget
@@ -59,7 +60,11 @@ internal class RenderViewModel(
 
                 val screen = widgetsRepository.loadScreen(screenId = "1")
                 val context = EvalContext(screen.state)
-                val widget = buildWidgetTree(screen.content, context)
+                val widget = buildWidgetTree(
+                    widget = screen.content,
+                    templates = screen.templates,
+                    ctx = context,
+                )
 
                 _viewState.value = ViewState(
                     widget = widget,
@@ -78,24 +83,34 @@ internal class RenderViewModel(
         }
     }
 
-    private fun buildWidgetTree(widget: Widget, ctx: EvalContext): WidgetNode {
+    private fun buildWidgetTree(
+        widget: Widget,
+        templates: Map<String, Widget>,
+        ctx: EvalContext,
+    ): WidgetNode {
         return when (widget) {
+            is TemplateWidget -> buildWidgetTree(
+                widget = templates[widget.name] ?: error("Can't create template without a name"),
+                templates = templates,
+                ctx = widget.ctx,
+            )
+
             is RowWidget -> RowWidgetNode(
                 id = widget.id,
                 modifier = widget.modifier,
-                children = widget.children.map { buildWidgetTree(it, ctx) }
+                children = widget.children.map { buildWidgetTree(it, templates, ctx) }
             )
 
             is ColumnWidget -> ColumnWidgetNode(
                 id = widget.id,
                 modifier = widget.modifier,
-                children = widget.children.map { buildWidgetTree(it, ctx) }
+                children = widget.children.map { buildWidgetTree(it, templates, ctx) }
             )
 
             is BoxWidget -> BoxWidgetNode(
                 id = widget.id,
                 modifier = widget.modifier,
-                children = widget.children.map { buildWidgetTree(it, ctx) }
+                children = widget.children.map { buildWidgetTree(it, templates, ctx) }
             )
 
             is ButtonWidget -> ButtonWidgetNode(

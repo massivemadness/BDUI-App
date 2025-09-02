@@ -7,7 +7,9 @@ import kotlinx.serialization.json.JsonPrimitive
 @Serializable
 internal data class ScreenDto(
     @SerialName("state")
-    val state: Map<String, JsonPrimitive>,
+    val state: Map<String, JsonPrimitive>? = null,
+    @SerialName("templates")
+    val templates: Map<String, WidgetDto>? = null,
     @SerialName("content")
     val content: WidgetDto,
 )

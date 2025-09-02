@@ -1,11 +1,13 @@
 package com.app.bdui.core.domain.widget
 
+import com.app.bdui.core.domain.evaluation.EvalContext
 import com.app.bdui.core.domain.modifier.ModifierFactory
 
-internal data class BoxWidget(
+internal class TemplateWidget(
     override val id: String,
     override val modifier: List<ModifierFactory>,
-    val children: List<Widget>,
+    val name: String,
+    val ctx: EvalContext,
 ) : Widget {
-    override val type = WidgetType.BOX
+    override val type = WidgetType.TEMPLATE
 }
