@@ -11,7 +11,10 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 
 @Serializable(BackgroundModifierDto.Serializer::class)
-internal data class BackgroundModifierDto(val color: String) {
+internal data class BackgroundModifierDto(
+    val color: String,
+    val cornerRadius: Int,
+) {
 
     object Serializer : KSerializer<BackgroundModifierDto> {
 
@@ -22,12 +25,18 @@ internal data class BackgroundModifierDto(val color: String) {
                 ?: error("BackgroundModifierDto can be deserialized only from JSON")
             return when (val element = input.decodeJsonElement()) {
                 is JsonPrimitive -> {
-                    BackgroundModifierDto(color = element.content)
+                    BackgroundModifierDto(
+                        color = element.content,
+                        cornerRadius = 0,
+                    )
                 }
                 is JsonObject -> {
                     val dto = input.json
                         .decodeFromJsonElement(ObjectDto.serializer(), element)
-                    BackgroundModifierDto(color = dto.color)
+                    BackgroundModifierDto(
+                        color = dto.color,
+                        cornerRadius = dto.cornerRadius,
+                    )
                 }
                 else -> error("Unexpected JSON for BackgroundModifierDto: $element")
             }
@@ -42,5 +51,7 @@ internal data class BackgroundModifierDto(val color: String) {
     private data class ObjectDto(
         @SerialName("color")
         val color: String,
+        @SerialName("corner_radius")
+        val cornerRadius: Int,
     )
 }

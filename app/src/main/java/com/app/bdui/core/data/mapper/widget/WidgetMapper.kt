@@ -15,6 +15,7 @@ import com.app.bdui.core.domain.widget.BoxWidget
 import com.app.bdui.core.domain.widget.ButtonWidget
 import com.app.bdui.core.domain.widget.ColumnWidget
 import com.app.bdui.core.domain.widget.RowWidget
+import com.app.bdui.core.domain.widget.SpacerWidget
 import com.app.bdui.core.domain.widget.TemplateWidget
 import com.app.bdui.core.domain.widget.TextFieldWidget
 import com.app.bdui.core.domain.widget.TextWidget
@@ -77,6 +78,11 @@ internal fun WidgetDto.toDomain(): Widget {
             id = id ?: UUID.randomUUID().toString(),
             text = params?.text?.toDomain() ?: Literal(""),
             enabled = params?.enabled?.toDomain() ?: Literal(true),
+            modifier = modifier.orEmpty().map(ModifierDto::toDomain),
+        )
+
+        WidgetType.SPACER -> SpacerWidget(
+            id = id ?: UUID.randomUUID().toString(),
             modifier = modifier.orEmpty().map(ModifierDto::toDomain),
         )
     }

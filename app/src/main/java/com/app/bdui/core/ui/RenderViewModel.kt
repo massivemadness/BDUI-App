@@ -17,6 +17,7 @@ import com.app.bdui.core.domain.widget.BoxWidget
 import com.app.bdui.core.domain.widget.ButtonWidget
 import com.app.bdui.core.domain.widget.ColumnWidget
 import com.app.bdui.core.domain.widget.RowWidget
+import com.app.bdui.core.domain.widget.SpacerWidget
 import com.app.bdui.core.domain.widget.TemplateWidget
 import com.app.bdui.core.domain.widget.TextFieldWidget
 import com.app.bdui.core.domain.widget.TextWidget
@@ -27,6 +28,7 @@ import com.app.bdui.core.ui.widget.BoxWidgetNode
 import com.app.bdui.core.ui.widget.ButtonWidgetNode
 import com.app.bdui.core.ui.widget.ColumnWidgetNode
 import com.app.bdui.core.ui.widget.RowWidgetNode
+import com.app.bdui.core.ui.widget.SpacerWidgetNode
 import com.app.bdui.core.ui.widget.TextFieldWidgetNode
 import com.app.bdui.core.ui.widget.TextWidgetNode
 import com.app.bdui.core.ui.widget.WidgetNode
@@ -139,6 +141,11 @@ internal class RenderViewModel(
                 id = widget.id,
                 modifier = widget.modifier,
                 text = widget.text.evalString(ctx, viewModelScope),
+            )
+
+            is SpacerWidget -> SpacerWidgetNode(
+                id = widget.id,
+                modifier = widget.modifier,
             )
         }
     }

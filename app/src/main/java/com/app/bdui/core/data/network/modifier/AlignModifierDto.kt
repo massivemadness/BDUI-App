@@ -5,6 +5,14 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal enum class AlignModifierDto {
+    @SerialName("top")
+    Top,
+    @SerialName("bottom")
+    Bottom,
+    @SerialName("start")
+    Start,
+    @SerialName("end")
+    End,
     @SerialName("top_start")
     TopStart,
     @SerialName("top_center")

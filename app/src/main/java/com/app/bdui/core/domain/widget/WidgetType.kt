@@ -7,7 +7,8 @@ internal enum class WidgetType(val value: String) {
     BOX("box"),
     TEXT("text"),
     BUTTON("button"),
-    TEXT_FIELD("textfield");
+    TEXT_FIELD("textfield"),
+    SPACER("spacer");
 
     companion object {
 

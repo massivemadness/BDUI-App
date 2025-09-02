@@ -16,6 +16,19 @@ internal fun AlignModifierDto.toDomain(): AlignModifier {
             AlignModifierDto.BottomStart -> Alignment.BottomStart
             AlignModifierDto.BottomCenter -> Alignment.BottomCenter
             AlignModifierDto.BottomEnd -> Alignment.BottomEnd
+            else -> null
+        },
+        horizontalAlignment = when (this) {
+            AlignModifierDto.Start -> Alignment.Start
+            AlignModifierDto.Center -> Alignment.CenterHorizontally
+            AlignModifierDto.End -> Alignment.End
+            else -> null
+        },
+        verticalAlignment = when (this) {
+            AlignModifierDto.Top -> Alignment.Top
+            AlignModifierDto.Center -> Alignment.CenterVertically
+            AlignModifierDto.Bottom -> Alignment.Bottom
+            else -> null
         }
     )
 }
