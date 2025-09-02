@@ -1,7 +1,7 @@
 package com.app.bdui
 
-import com.app.bdui.core.domain.entity.IntegerValue
-import com.app.bdui.core.domain.evaluation.EvalContext
+import com.app.bdui.core.domain.value.IntegerValue
+import com.app.bdui.core.domain.entity.EvalContext
 import com.app.bdui.core.domain.evaluation.Length
 import com.app.bdui.core.domain.evaluation.Literal
 import junit.framework.TestCase.assertEquals

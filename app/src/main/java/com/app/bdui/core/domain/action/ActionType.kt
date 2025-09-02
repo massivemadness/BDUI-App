@@ -5,13 +5,13 @@ internal enum class ActionType(val value: String) {
     SYNC_STATE("sync_state"),
     NAVIGATE("navigate"),
     GO_BACK("go_back"),
-    SNACKBAR("snackbar"),
-    UNSUPPORTED("unsupported");
+    SHOW_SNACKBAR("show_snackbar"),
+    UNKNOWN("unknown");
 
     companion object {
 
         fun of(value: String?): ActionType? {
-            return entries.find { it.value == value } ?: UNSUPPORTED
+            return entries.find { it.value == value } ?: UNKNOWN
         }
     }
 }

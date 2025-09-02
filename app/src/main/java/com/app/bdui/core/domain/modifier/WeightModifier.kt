@@ -8,12 +8,8 @@ internal data class WeightModifier(val weight: Float, val fill: Boolean) : Modif
 
     override fun Modifier.apply(scope: ModifierScope): Modifier {
         return when {
-            scope.columnScope != null -> with(scope.columnScope) {
-                weight(weight, fill)
-            }
-            scope.rowScope != null -> with(scope.rowScope) {
-                weight(weight, fill)
-            }
+            scope.columnScope != null -> with(scope.columnScope) { weight(weight, fill) }
+            scope.rowScope != null -> with(scope.rowScope) { weight(weight, fill) }
             else -> this
         }
     }

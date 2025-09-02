@@ -1,10 +1,9 @@
 package com.app.bdui
 
-import com.app.bdui.core.domain.entity.BooleanValue
-import com.app.bdui.core.domain.evaluation.EvalContext
+import com.app.bdui.core.domain.value.BooleanValue
+import com.app.bdui.core.domain.entity.EvalContext
 import com.app.bdui.core.domain.evaluation.Literal
 import com.app.bdui.core.domain.evaluation.Not
-import com.app.bdui.core.domain.evaluation.NotEmpty
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest

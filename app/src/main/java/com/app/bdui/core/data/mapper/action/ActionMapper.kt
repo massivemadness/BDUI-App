@@ -9,7 +9,7 @@ import com.app.bdui.core.domain.action.NavigateAction
 import com.app.bdui.core.domain.action.PushStateAction
 import com.app.bdui.core.domain.action.SnackbarAction
 import com.app.bdui.core.domain.action.SyncStateAction
-import com.app.bdui.core.domain.action.UnsupportedAction
+import com.app.bdui.core.domain.action.UnknownAction
 
 internal fun ActionDto.toDomain(): Action {
     return when (ActionType.of(type)) {
@@ -17,10 +17,12 @@ internal fun ActionDto.toDomain(): Action {
             ref = ref ?: error("Reference is required for type $type"),
             value = value.toDynamicValue(),
         )
-        ActionType.SYNC_STATE -> SyncStateAction
+        ActionType.SYNC_STATE -> SyncStateAction(
+            actionId = id ?: error("Action must have an ID")
+        )
         ActionType.NAVIGATE -> NavigateAction(deeplink = deeplink.orEmpty())
         ActionType.GO_BACK -> GoBackAction
-        ActionType.SNACKBAR -> SnackbarAction(message = message.orEmpty())
-        else -> UnsupportedAction
+        ActionType.SHOW_SNACKBAR -> SnackbarAction(message = message.orEmpty())
+        else -> UnknownAction
     }
 }

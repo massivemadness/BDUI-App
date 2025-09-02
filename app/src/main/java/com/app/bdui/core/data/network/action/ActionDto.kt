@@ -8,6 +8,8 @@ import kotlinx.serialization.json.JsonPrimitive
 internal data class ActionDto(
     @SerialName("type")
     val type: String? = null,
+    @SerialName("id")
+    val id: String? = null,
     @SerialName("ref")
     val ref: String? = null,
     @SerialName("value")

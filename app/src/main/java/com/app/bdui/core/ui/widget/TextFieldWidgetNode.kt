@@ -6,7 +6,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.app.bdui.core.domain.entity.StringValue
+import com.app.bdui.core.domain.value.StringValue
 import com.app.bdui.core.domain.modifier.ModifierFactory
 import kotlinx.coroutines.flow.StateFlow
 

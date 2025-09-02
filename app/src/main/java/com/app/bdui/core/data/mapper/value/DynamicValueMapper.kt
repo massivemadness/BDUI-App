@@ -1,10 +1,10 @@
 package com.app.bdui.core.data.mapper.value
 
-import com.app.bdui.core.domain.entity.BooleanValue
-import com.app.bdui.core.domain.entity.DynamicValue
-import com.app.bdui.core.domain.entity.IntegerValue
-import com.app.bdui.core.domain.entity.NullValue
-import com.app.bdui.core.domain.entity.StringValue
+import com.app.bdui.core.domain.value.BooleanValue
+import com.app.bdui.core.domain.value.DynamicValue
+import com.app.bdui.core.domain.value.IntegerValue
+import com.app.bdui.core.domain.value.NullValue
+import com.app.bdui.core.domain.value.StringValue
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.booleanOrNull

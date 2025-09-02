@@ -1,11 +1,11 @@
-package com.app.bdui.core.domain.evaluation
+package com.app.bdui.core.domain.entity
 
-import com.app.bdui.core.domain.entity.DynamicValue
-import com.app.bdui.core.domain.entity.NullValue
+import com.app.bdui.core.domain.value.DynamicValue
+import com.app.bdui.core.domain.value.NullValue
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-internal class EvalContext(initial: Map<String, DynamicValue>) {
+internal class EvalContext(initial: Snapshot) {
 
     private val state = initial.mapValues { MutableStateFlow(it.value) }.toMutableMap()
 
@@ -19,5 +19,9 @@ internal class EvalContext(initial: Map<String, DynamicValue>) {
         state.getOrPut(ref) {
             MutableStateFlow(value)
         }.value = value
+    }
+
+    fun snapshot(): Snapshot {
+        return state.mapValues { (_, value) -> value.value }
     }
 }

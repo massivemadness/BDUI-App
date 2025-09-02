@@ -10,9 +10,9 @@ import com.app.bdui.core.domain.evaluation.Literal
 import com.app.bdui.core.domain.evaluation.NotEmpty
 import com.app.bdui.core.domain.evaluation.Or
 import com.app.bdui.core.data.network.evaluation.EvaluationDto
-import com.app.bdui.core.domain.entity.BooleanValue
-import com.app.bdui.core.domain.entity.IntegerValue
-import com.app.bdui.core.domain.entity.StringValue
+import com.app.bdui.core.domain.value.BooleanValue
+import com.app.bdui.core.domain.value.IntegerValue
+import com.app.bdui.core.domain.value.StringValue
 import com.app.bdui.core.domain.evaluation.Not
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.booleanOrNull

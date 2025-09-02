@@ -1,7 +1,7 @@
 package com.app.bdui
 
-import com.app.bdui.core.domain.entity.StringValue
-import com.app.bdui.core.domain.evaluation.EvalContext
+import com.app.bdui.core.domain.value.StringValue
+import com.app.bdui.core.domain.entity.EvalContext
 import com.app.bdui.core.domain.evaluation.Reference
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.first

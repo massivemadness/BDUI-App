@@ -1,4 +1,4 @@
-package com.app.bdui.core.domain.entity
+package com.app.bdui.core.domain.value
 
 internal fun DynamicValue.asString(): String {
     return when (this) {

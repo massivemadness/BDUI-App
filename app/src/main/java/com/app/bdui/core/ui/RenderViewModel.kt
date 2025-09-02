@@ -10,7 +10,7 @@ import com.app.bdui.core.domain.action.NavigateAction
 import com.app.bdui.core.domain.action.PushStateAction
 import com.app.bdui.core.domain.action.SnackbarAction
 import com.app.bdui.core.domain.action.SyncStateAction
-import com.app.bdui.core.domain.evaluation.EvalContext
+import com.app.bdui.core.domain.entity.EvalContext
 import com.app.bdui.core.domain.evaluation.Reference
 import com.app.bdui.core.domain.repository.WidgetsRepository
 import com.app.bdui.core.domain.widget.BoxWidget
@@ -48,6 +48,8 @@ internal class RenderViewModel(
     private val _viewEvent = Channel<ViewEvent>(Channel.BUFFERED)
     val viewEvent: Flow<ViewEvent> = _viewEvent.receiveAsFlow()
 
+    private val screenId: String = "123"
+
     init {
         viewModelScope.launch {
             try {
@@ -58,7 +60,7 @@ internal class RenderViewModel(
                     )
                 }
 
-                val screen = widgetsRepository.loadScreen(screenId = "1")
+                val screen = widgetsRepository.loadScreen(screenId)
                 val context = EvalContext(screen.state)
                 val widget = buildWidgetTree(
                     widget = screen.content,
@@ -92,7 +94,7 @@ internal class RenderViewModel(
             is TemplateWidget -> buildWidgetTree(
                 widget = templates[widget.name] ?: error("Can't create template without a name"),
                 templates = templates,
-                ctx = widget.ctx,
+                ctx = widget.state,
             )
 
             is RowWidget -> RowWidgetNode(
@@ -155,8 +157,13 @@ internal class RenderViewModel(
                 ctx.set(action.ref, action.value)
             }
             is SyncStateAction -> {
-                val actions = widgetsRepository.syncActions(action, ctx)
-                actions.forEach { handleAction(it, ctx) }
+                widgetsRepository.loadActions(
+                    screenId = screenId,
+                    actionId = action.actionId,
+                    snapshot = ctx.snapshot()
+                ).forEach { action ->
+                    handleAction(action, ctx)
+                }
             }
             is NavigateAction -> {
                 _viewEvent.send(ViewEvent.Navigate(action.deeplink))
@@ -167,7 +174,9 @@ internal class RenderViewModel(
             is SnackbarAction -> {
                 _viewEvent.send(ViewEvent.ShowSnackbar(action.message))
             }
-            else -> Unit
+            else -> {
+                Log.e("RenderViewModel", "Unknown action")
+            }
         }
     }
 

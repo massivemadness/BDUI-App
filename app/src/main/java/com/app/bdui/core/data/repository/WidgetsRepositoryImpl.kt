@@ -1,14 +1,17 @@
 package com.app.bdui.core.data.repository
 
+import com.app.bdui.core.data.mapper.action.toDomain
 import com.app.bdui.core.data.mapper.widget.toDomain
+import com.app.bdui.core.data.network.action.ActionDto
 import com.app.bdui.core.data.network.widget.ScreenDto
 import com.app.bdui.core.domain.action.Action
 import com.app.bdui.core.domain.action.PushStateAction
 import com.app.bdui.core.domain.action.SnackbarAction
 import com.app.bdui.core.domain.action.SyncStateAction
 import com.app.bdui.core.domain.entity.Screen
-import com.app.bdui.core.domain.entity.StringValue
-import com.app.bdui.core.domain.evaluation.EvalContext
+import com.app.bdui.core.domain.value.StringValue
+import com.app.bdui.core.domain.entity.EvalContext
+import com.app.bdui.core.domain.entity.Snapshot
 import com.app.bdui.core.domain.repository.WidgetsRepository
 import kotlinx.coroutines.delay
 import kotlinx.serialization.json.Json
@@ -106,7 +109,7 @@ internal class WidgetsRepositoryImpl : WidgetsRepository {
                         },
                         {
                           "type": "sync_state",
-                          "widget_id": "button_submit"
+                          "id": "action_button_submit"
                         },
                         {
                           "type": "push_state",
@@ -123,7 +126,7 @@ internal class WidgetsRepositoryImpl : WidgetsRepository {
                   {
                     "type": "template",
                     "name": "example_template",
-                    "data": {
+                    "state": {
                       "title": "Title",
                       "subtitle": "Subtitle"
                     }
@@ -131,7 +134,7 @@ internal class WidgetsRepositoryImpl : WidgetsRepository {
                   {
                     "type": "template",
                     "name": "example_template",
-                    "data": {
+                    "state": {
                       "title": "Hello world!",
                       "subtitle": "Hello template!"
                     }
@@ -143,15 +146,39 @@ internal class WidgetsRepositoryImpl : WidgetsRepository {
 
         val jsonParser = Json { ignoreUnknownKeys = true }
         val dto = jsonParser.decodeFromString<ScreenDto>(json)
+
         return dto.toDomain()
     }
 
-    override suspend fun syncActions(action: SyncStateAction, ctx: EvalContext): List<Action> {
+    override suspend fun loadActions(
+        screenId: String,
+        actionId: String,
+        snapshot: Snapshot
+    ): List<Action> {
         delay(1000L)
-        return listOf(
-            PushStateAction("text_field.name", StringValue("")),
-            PushStateAction("text_field.phone", StringValue("")),
-            SnackbarAction("Success"),
-        )
+
+        val json = """
+            [
+              {
+                "type": "push_state",
+                "ref": "text_field.name",
+                "value": ""
+              },
+              {
+                "type": "push_state",
+                "ref": "text_field.phone",
+                "value": ""
+              },
+              {
+                "type": "show_snackbar",
+                "message": "Success"
+              }
+            ]
+        """.trimIndent()
+
+        val jsonParser = Json { ignoreUnknownKeys = true }
+        val dto = jsonParser.decodeFromString<List<ActionDto>>(json)
+
+        return dto.map(ActionDto::toDomain)
     }
 }

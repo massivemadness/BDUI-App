@@ -9,7 +9,7 @@ import com.app.bdui.core.data.network.modifier.base.ModifierDto
 import com.app.bdui.core.data.network.widget.ScreenDto
 import com.app.bdui.core.data.network.widget.WidgetDto
 import com.app.bdui.core.domain.entity.Screen
-import com.app.bdui.core.domain.evaluation.EvalContext
+import com.app.bdui.core.domain.entity.EvalContext
 import com.app.bdui.core.domain.evaluation.Literal
 import com.app.bdui.core.domain.widget.BoxWidget
 import com.app.bdui.core.domain.widget.ButtonWidget
@@ -35,30 +35,28 @@ internal fun WidgetDto.toDomain(): Widget {
     return when (WidgetType.of(type)) {
         WidgetType.TEMPLATE -> TemplateWidget(
             id = id ?: UUID.randomUUID().toString(),
-            modifier = modifier.orEmpty().map(ModifierDto::toDomain),
             name = name ?: error("Can't create template without a name"),
-            ctx = EvalContext(
-                initial = data.orEmpty()
-                    .mapValues { (_, value) -> value.toDynamicValue() }
+            state = EvalContext(
+                initial = state.orEmpty().mapValues { (_, value) -> value.toDynamicValue() }
             ),
         )
 
         WidgetType.ROW -> RowWidget(
             id = id ?: UUID.randomUUID().toString(),
-            modifier = modifier.orEmpty().map(ModifierDto::toDomain),
             children = children.orEmpty().map(WidgetDto::toDomain),
+            modifier = modifier.orEmpty().map(ModifierDto::toDomain),
         )
 
         WidgetType.COLUMN -> ColumnWidget(
             id = id ?: UUID.randomUUID().toString(),
-            modifier = modifier.orEmpty().map(ModifierDto::toDomain),
             children = children.orEmpty().map(WidgetDto::toDomain),
+            modifier = modifier.orEmpty().map(ModifierDto::toDomain),
         )
 
         WidgetType.BOX -> BoxWidget(
             id = id ?: UUID.randomUUID().toString(),
-            modifier = modifier.orEmpty().map(ModifierDto::toDomain),
             children = children.orEmpty().map(WidgetDto::toDomain),
+            modifier = modifier.orEmpty().map(ModifierDto::toDomain),
         )
 
         WidgetType.TEXT -> TextWidget(
@@ -69,17 +67,17 @@ internal fun WidgetDto.toDomain(): Widget {
 
         WidgetType.BUTTON -> ButtonWidget(
             id = id ?: UUID.randomUUID().toString(),
-            modifier = modifier.orEmpty().map(ModifierDto::toDomain),
             text = params?.text?.toDomain() ?: Literal(""),
             enabled = params?.enabled?.toDomain() ?: Literal(true),
-            onClick = params?.onClick.orEmpty().map(ActionDto::toDomain)
+            onClick = params?.onClick.orEmpty().map(ActionDto::toDomain),
+            modifier = modifier.orEmpty().map(ModifierDto::toDomain),
         )
 
         WidgetType.TEXT_FIELD -> TextFieldWidget(
             id = id ?: UUID.randomUUID().toString(),
-            modifier = modifier.orEmpty().map(ModifierDto::toDomain),
             text = params?.text?.toDomain() ?: Literal(""),
             enabled = params?.enabled?.toDomain() ?: Literal(true),
+            modifier = modifier.orEmpty().map(ModifierDto::toDomain),
         )
     }
 }

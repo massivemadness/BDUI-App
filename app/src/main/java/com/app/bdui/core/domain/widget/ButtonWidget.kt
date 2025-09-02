@@ -6,10 +6,10 @@ import com.app.bdui.core.domain.modifier.ModifierFactory
 
 internal data class ButtonWidget(
     override val id: String,
-    override val modifier: List<ModifierFactory>,
     val text: Evaluation,
     val enabled: Evaluation,
     val onClick: List<Action>,
+    val modifier: List<ModifierFactory>,
 ) : Widget {
     override val type = WidgetType.BUTTON
 }

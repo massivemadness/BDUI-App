@@ -8,6 +8,11 @@ import androidx.compose.ui.Modifier
 internal data class AlignModifier(val alignment: Alignment) : ModifierFactory {
 
     override fun Modifier.apply(scope: ModifierScope): Modifier {
-        return scope.boxScope?.run { align(alignment) } ?: this
+        return when {
+            scope.boxScope != null -> with(scope.boxScope) { align(alignment) }
+            scope.rowScope != null -> this // TODO implement
+            scope.columnScope != null -> this // TODO implement
+            else -> this
+        }
     }
 }

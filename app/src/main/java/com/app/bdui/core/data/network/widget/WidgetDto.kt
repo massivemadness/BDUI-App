@@ -16,8 +16,8 @@ internal data class WidgetDto(
     val name: String? = null,
     @SerialName("params")
     val params: ParamsDto? = null,
-    @SerialName("data")
-    val data: Map<String, JsonPrimitive>? = null,
+    @SerialName("state")
+    val state: Map<String, JsonPrimitive>? = null,
     @SerialName("modifier")
     val modifier: List<ModifierDto>? = null,
     @SerialName("children")

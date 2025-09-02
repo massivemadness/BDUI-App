@@ -4,8 +4,8 @@ import com.app.bdui.core.domain.modifier.ModifierFactory
 
 internal data class BoxWidget(
     override val id: String,
-    override val modifier: List<ModifierFactory>,
     val children: List<Widget>,
+    val modifier: List<ModifierFactory>,
 ) : Widget {
     override val type = WidgetType.BOX
 }

@@ -1,9 +1,9 @@
 package com.app.bdui.core.domain.evaluation
 
-import com.app.bdui.core.domain.entity.BooleanValue
-import com.app.bdui.core.domain.entity.StringValue
-import com.app.bdui.core.domain.entity.DynamicValue
-import com.app.bdui.core.domain.entity.asString
+import com.app.bdui.core.domain.value.BooleanValue
+import com.app.bdui.core.domain.value.DynamicValue
+import com.app.bdui.core.domain.entity.EvalContext
+import com.app.bdui.core.domain.value.asString
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
