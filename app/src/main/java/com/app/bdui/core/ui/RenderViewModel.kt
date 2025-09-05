@@ -36,6 +36,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -152,7 +153,7 @@ internal class RenderViewModel(
 
     private fun handleActions(actions: List<Action>, ctx: EvalContext) {
         viewModelScope.launch {
-            for (action in actions) {
+            actions.forEach { action ->
                 handleAction(action, ctx)
             }
         }
@@ -161,7 +162,7 @@ internal class RenderViewModel(
     private suspend fun handleAction(action: Action, ctx: EvalContext) {
         when (action) {
             is PushStateAction -> {
-                ctx.set(action.ref, action.value)
+                ctx.set(action.ref, action.value.eval(ctx).first())
             }
             is SyncStateAction -> {
                 widgetsRepository.loadActions(

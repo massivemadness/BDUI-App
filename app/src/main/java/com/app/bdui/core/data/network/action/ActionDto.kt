@@ -1,8 +1,8 @@
 package com.app.bdui.core.data.network.action
 
+import com.app.bdui.core.data.network.evaluation.EvaluationDto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonPrimitive
 
 @Serializable
 internal data class ActionDto(
@@ -13,7 +13,7 @@ internal data class ActionDto(
     @SerialName("ref")
     val ref: String? = null,
     @SerialName("value")
-    val value: JsonPrimitive? = null,
+    val value: EvaluationDto? = null,
     @SerialName("deeplink")
     val deeplink: String? = null,
     @SerialName("message")

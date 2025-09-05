@@ -5,12 +5,7 @@ import com.app.bdui.core.data.mapper.widget.toDomain
 import com.app.bdui.core.data.network.action.ActionDto
 import com.app.bdui.core.data.network.widget.ScreenDto
 import com.app.bdui.core.domain.action.Action
-import com.app.bdui.core.domain.action.PushStateAction
-import com.app.bdui.core.domain.action.SnackbarAction
-import com.app.bdui.core.domain.action.SyncStateAction
 import com.app.bdui.core.domain.entity.Screen
-import com.app.bdui.core.domain.value.StringValue
-import com.app.bdui.core.domain.entity.EvalContext
 import com.app.bdui.core.domain.entity.Snapshot
 import com.app.bdui.core.domain.repository.WidgetsRepository
 import kotlinx.coroutines.delay
@@ -27,30 +22,57 @@ internal class WidgetsRepositoryImpl : WidgetsRepository {
                 "submit.loading": false
               },
               "templates": {
-                "example_template": {
-                  "type": "column",
+                "expandable_widget": {
+                  "type": "row",
                   "modifier": [
                     { "fill": "max_width" },
+                    { "padding": { "horizontal": 16, "vertical": 12 } },
+                    { "background": "#CCCCCC" },
                     { "padding": { "horizontal": 16, "vertical": 12 } }
                   ],
                   "children": [
                     {
-                      "type": "text",
-                      "params": {
-                        "text": "$.title"
-                      },
+                      "type": "column",
                       "modifier": [
-                        { "fill": "max_width" }
+                        { "weight": 1 }
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "params": {
+                            "text": "$.title"
+                          },
+                          "modifier": [
+                            { "fill": "max_width" }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "params": {
+                            "text": "$.subtitle"
+                          },
+                          "modifier": [
+                            { "fill": "max_width" }
+                          ]
+                        }
                       ]
                     },
                     {
-                      "type": "text",
+                      "type": "button",
                       "params": {
-                        "text": "$.subtitle"
-                      },
-                      "modifier": [
-                        { "fill": "max_width" }
-                      ]
+                        "text": {
+                          "if": "$.expanded",
+                          "then": "COLLAPSE",
+                          "else": "EXPAND"
+                        },
+                        "onClick": [
+                          {
+                            "type": "push_state",
+                            "ref": "expanded",
+                            "value": { "not": "$.expanded" }
+                          }
+                        ]   
+                      }
                     }
                   ]
                 }
@@ -129,18 +151,20 @@ internal class WidgetsRepositoryImpl : WidgetsRepository {
                   },
                   {
                     "type": "template",
-                    "name": "example_template",
+                    "name": "expandable_widget",
                     "state": {
                       "title": "Title",
-                      "subtitle": "Subtitle"
+                      "subtitle": "Subtitle",
+                      "expanded": false
                     }
                   },
                   {
                     "type": "template",
-                    "name": "example_template",
+                    "name": "expandable_widget",
                     "state": {
                       "title": "Hello world!",
-                      "subtitle": "Hello template!"
+                      "subtitle": "Hello template!",
+                      "expanded": false
                     }
                   }
                 ]

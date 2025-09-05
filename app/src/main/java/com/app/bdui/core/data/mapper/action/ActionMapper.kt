@@ -1,6 +1,6 @@
 package com.app.bdui.core.data.mapper.action
 
-import com.app.bdui.core.data.mapper.value.toDynamicValue
+import com.app.bdui.core.data.mapper.evaluation.toDomain
 import com.app.bdui.core.data.network.action.ActionDto
 import com.app.bdui.core.domain.action.Action
 import com.app.bdui.core.domain.action.ActionType
@@ -15,7 +15,7 @@ internal fun ActionDto.toDomain(): Action {
     return when (ActionType.of(type)) {
         ActionType.PUSH_STATE -> PushStateAction(
             ref = ref ?: error("Reference is required for type $type"),
-            value = value.toDynamicValue(),
+            value = value?.toDomain() ?: error("Value is required for type $type"),
         )
         ActionType.SYNC_STATE -> SyncStateAction(
             actionId = id ?: error("Action must have an ID")
