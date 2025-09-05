@@ -88,7 +88,11 @@ internal class WidgetsRepositoryImpl : WidgetsRepository {
                     "id": "button_submit",
                     "type": "button",
                     "params": {
-                      "text": "Submit",
+                      "text": {
+                        "if": { "notEmpty": "$.text_field.name" },
+                        "then": "Submit",
+                        "else": "..."
+                      },
                       "enabled": {
                         "and": [
                           { "not": "$.submit.loading" },

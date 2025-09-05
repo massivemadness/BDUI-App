@@ -10,6 +10,7 @@ import com.app.bdui.core.domain.evaluation.Literal
 import com.app.bdui.core.domain.evaluation.NotEmpty
 import com.app.bdui.core.domain.evaluation.Or
 import com.app.bdui.core.data.network.evaluation.EvaluationDto
+import com.app.bdui.core.domain.evaluation.IfElse
 import com.app.bdui.core.domain.value.BooleanValue
 import com.app.bdui.core.domain.value.IntegerValue
 import com.app.bdui.core.domain.value.StringValue
@@ -50,6 +51,11 @@ internal fun EvaluationDto.toDomain(): Evaluation = when {
     or != null -> Or(or.map(EvaluationDto::toDomain))
     and != null -> And(and.map(EvaluationDto::toDomain))
     not != null -> Not(not.toDomain())
+    condition != null -> IfElse(
+        condition = condition.toDomain(),
+        thenBranch = thenBranch?.toDomain() ?: error("Must specify then branch"),
+        elseBranch = elseBranch?.toDomain() ?: error("Must specify else branch"),
+    )
 
     else -> error("Invalid expression: $this")
 }

@@ -21,6 +21,9 @@ internal data class EvaluationDto(
     val or: List<EvaluationDto>? = null,
     val and: List<EvaluationDto>? = null,
     val not: EvaluationDto? = null,
+    val condition: EvaluationDto? = null,
+    val thenBranch: EvaluationDto? = null,
+    val elseBranch: EvaluationDto? = null,
 ) {
 
     object Serializer : KSerializer<EvaluationDto> {
@@ -47,6 +50,9 @@ internal data class EvaluationDto(
                         or = dto.or,
                         and = dto.and,
                         not = dto.not,
+                        condition = dto.condition,
+                        thenBranch = dto.thenBranch,
+                        elseBranch = dto.elseBranch,
                     )
                 }
                 else -> error("Unexpected JSON for EvaluationDto: $element")
@@ -76,5 +82,11 @@ internal data class EvaluationDto(
         val and: List<EvaluationDto>? = null,
         @SerialName("not")
         val not: EvaluationDto? = null,
+        @SerialName("if")
+        val condition: EvaluationDto? = null,
+        @SerialName("then")
+        val thenBranch: EvaluationDto? = null,
+        @SerialName("else")
+        val elseBranch: EvaluationDto? = null,
     )
 }
