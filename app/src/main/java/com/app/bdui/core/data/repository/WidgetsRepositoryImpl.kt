@@ -54,6 +54,23 @@ internal class WidgetsRepositoryImpl : WidgetsRepository {
                           "modifier": [
                             { "fill": "max_width" }
                           ]
+                        },
+                        {
+                          "type": "condition",
+                          "params": {
+                            "visible": "$.expanded"
+                          },
+                          "children": [
+                            {
+                              "type": "text",
+                              "params": {
+                                "text": "Hidden content"
+                              },
+                              "modifier": [
+                                { "fill": "max_width" }
+                              ]
+                            }
+                          ]
                         }
                       ]
                     },

@@ -16,6 +16,7 @@ import com.app.bdui.core.domain.repository.WidgetsRepository
 import com.app.bdui.core.domain.widget.BoxWidget
 import com.app.bdui.core.domain.widget.ButtonWidget
 import com.app.bdui.core.domain.widget.ColumnWidget
+import com.app.bdui.core.domain.widget.ConditionalWidget
 import com.app.bdui.core.domain.widget.RowWidget
 import com.app.bdui.core.domain.widget.SpacerWidget
 import com.app.bdui.core.domain.widget.TemplateWidget
@@ -27,6 +28,7 @@ import com.app.bdui.core.ui.extensions.evalString
 import com.app.bdui.core.ui.widget.BoxWidgetNode
 import com.app.bdui.core.ui.widget.ButtonWidgetNode
 import com.app.bdui.core.ui.widget.ColumnWidgetNode
+import com.app.bdui.core.ui.widget.ConditionalWidgetNode
 import com.app.bdui.core.ui.widget.RowWidgetNode
 import com.app.bdui.core.ui.widget.SpacerWidgetNode
 import com.app.bdui.core.ui.widget.TextFieldWidgetNode
@@ -98,6 +100,13 @@ internal class RenderViewModel(
                 widget = templates[widget.name] ?: error("Can't create template without a name"),
                 templates = templates,
                 ctx = widget.state,
+            )
+
+            is ConditionalWidget -> ConditionalWidgetNode(
+                id = widget.id,
+                modifier = widget.modifier,
+                visible = widget.condition.evalBoolean(ctx, viewModelScope),
+                children = widget.children.map { buildWidgetTree(it, templates, ctx) }
             )
 
             is RowWidget -> RowWidgetNode(

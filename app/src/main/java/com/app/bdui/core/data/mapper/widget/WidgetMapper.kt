@@ -14,6 +14,7 @@ import com.app.bdui.core.domain.evaluation.Literal
 import com.app.bdui.core.domain.widget.BoxWidget
 import com.app.bdui.core.domain.widget.ButtonWidget
 import com.app.bdui.core.domain.widget.ColumnWidget
+import com.app.bdui.core.domain.widget.ConditionalWidget
 import com.app.bdui.core.domain.widget.RowWidget
 import com.app.bdui.core.domain.widget.SpacerWidget
 import com.app.bdui.core.domain.widget.TemplateWidget
@@ -40,6 +41,13 @@ internal fun WidgetDto.toDomain(): Widget {
             state = EvalContext(
                 initial = state.orEmpty().mapValues { (_, value) -> value.toDynamicValue() }
             ),
+        )
+
+        WidgetType.CONDITION -> ConditionalWidget(
+            id = id ?: UUID.randomUUID().toString(),
+            condition = params?.visible?.toDomain() ?: Literal(false),
+            children = children.orEmpty().map(WidgetDto::toDomain),
+            modifier = modifier.orEmpty().map(ModifierDto::toDomain),
         )
 
         WidgetType.ROW -> RowWidget(

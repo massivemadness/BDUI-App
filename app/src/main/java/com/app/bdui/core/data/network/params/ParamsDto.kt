@@ -13,4 +13,6 @@ internal data class ParamsDto(
     val enabled: EvaluationDto? = null,
     @SerialName("onClick")
     val onClick: List<ActionDto>? = null,
+    @SerialName("visible")
+    val visible: EvaluationDto? = null,
 )
