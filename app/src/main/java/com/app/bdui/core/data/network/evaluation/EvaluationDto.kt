@@ -6,14 +6,16 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonDecoder
+import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 
 @Serializable(EvaluationDto.Serializer::class)
 internal data class EvaluationDto(
     val reference: String? = null,
-    val literal: JsonPrimitive? = null,
+    val literal: JsonElement? = null,
     val empty: EvaluationDto? = null,
     val notEmpty: EvaluationDto? = null,
     val length: EvaluationDto? = null,
@@ -34,7 +36,8 @@ internal data class EvaluationDto(
             val input = decoder as? JsonDecoder
                 ?: error("EvaluationDto can be deserialized only from JSON")
             return when (val element = input.decodeJsonElement()) {
-                is JsonPrimitive -> {
+                is JsonPrimitive,
+                is JsonArray -> {
                     EvaluationDto(literal = element)
                 }
                 is JsonObject -> {

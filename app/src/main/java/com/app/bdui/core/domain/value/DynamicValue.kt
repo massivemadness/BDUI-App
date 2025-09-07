@@ -21,4 +21,7 @@ internal data class StringValue(val value: String) : DynamicValue {
     }
 }
 
+@Immutable
+internal data class ArrayValue(val value: List<DynamicValue>): DynamicValue
+
 internal data object NullValue : DynamicValue

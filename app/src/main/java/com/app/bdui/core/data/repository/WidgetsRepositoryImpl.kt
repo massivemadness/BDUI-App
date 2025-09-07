@@ -70,6 +70,9 @@ internal class WidgetsRepositoryImpl : WidgetsRepository {
                                 { "fill": "max_width" }
                               ]
                             }
+                          ],
+                          "modifier": [
+                            { "fill": "max_width" }
                           ]
                         }
                       ]

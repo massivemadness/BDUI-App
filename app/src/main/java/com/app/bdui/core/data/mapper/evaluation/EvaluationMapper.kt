@@ -1,5 +1,6 @@
 package com.app.bdui.core.data.mapper.evaluation
 
+import com.app.bdui.core.data.mapper.value.toDynamicValue
 import com.app.bdui.core.domain.evaluation.And
 import com.app.bdui.core.domain.evaluation.Empty
 import com.app.bdui.core.domain.evaluation.Equals
@@ -15,6 +16,10 @@ import com.app.bdui.core.domain.value.BooleanValue
 import com.app.bdui.core.domain.value.IntegerValue
 import com.app.bdui.core.domain.value.StringValue
 import com.app.bdui.core.domain.evaluation.Not
+import com.app.bdui.core.domain.value.ArrayValue
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.int
@@ -25,18 +30,22 @@ private const val REF_PREFIX = "$."
 internal fun EvaluationDto.toDomain(): Evaluation = when {
     reference != null -> Reference(reference)
 
-    literal != null -> when {
-        literal.isString -> {
-            val content = literal.content
-            if (content.startsWith(REF_PREFIX)) {
-                Reference(content.substringAfter(REF_PREFIX))
-            } else {
-                Literal(StringValue(content))
+    literal != null -> when (literal) {
+        is JsonPrimitive -> when {
+            literal.isString -> {
+                val content = literal.content
+                if (content.startsWith(REF_PREFIX)) {
+                    Reference(content.substringAfter(REF_PREFIX))
+                } else {
+                    Literal(literal.toDynamicValue())
+                }
             }
+            literal.booleanOrNull != null -> Literal(literal.toDynamicValue())
+            literal.intOrNull != null -> Literal(literal.toDynamicValue())
+            else -> error("Invalid type: $literal")
         }
-        literal.booleanOrNull != null -> Literal(BooleanValue(literal.boolean))
-        literal.intOrNull != null -> Literal(IntegerValue(literal.int))
-        else -> error("Invalid type: $literal")
+        is JsonArray -> Literal(literal.toDynamicValue())
+        is JsonObject -> error("Invalid type: $literal")
     }
 
     empty != null -> Empty(empty.toDomain())

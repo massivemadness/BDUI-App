@@ -26,3 +26,24 @@ internal fun DynamicValue.asInteger(): Int {
         else -> IntegerValue.DEFAULT
     }
 }
+
+internal fun DynamicValue.asStringArray(): List<String> {
+    return when (this) {
+        is ArrayValue -> this.value.map(DynamicValue::asString)
+        else -> emptyList()
+    }
+}
+
+internal fun DynamicValue.asBooleanArray(): List<Boolean> {
+    return when (this) {
+        is ArrayValue -> this.value.map(DynamicValue::asBoolean)
+        else -> emptyList()
+    }
+}
+
+internal fun DynamicValue.asIntegerArray(): List<Int> {
+    return when (this) {
+        is ArrayValue -> this.value.map(DynamicValue::asInteger)
+        else -> emptyList()
+    }
+}
