@@ -8,16 +8,16 @@ import androidx.compose.ui.unit.dp
 @Immutable
 internal data class PaddingModifier(
     val start: Int,
-    val end: Int,
     val top: Int,
+    val end: Int,
     val bottom: Int,
 ) : ModifierFactory {
 
     override fun Modifier.apply(scope: ModifierScope): Modifier {
         return this.padding(
             start = start.dp,
-            end = end.dp,
             top = top.dp,
+            end = end.dp,
             bottom = bottom.dp
         )
     }

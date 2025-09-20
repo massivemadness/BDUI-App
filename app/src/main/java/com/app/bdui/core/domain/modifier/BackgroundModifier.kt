@@ -4,18 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 
 @Immutable
-internal data class BackgroundModifier(
-    val color: Color,
-    val shape: Shape,
-) : ModifierFactory {
+internal data class BackgroundModifier(val color: Color) : ModifierFactory {
 
     override fun Modifier.apply(scope: ModifierScope): Modifier {
-        return this.background(
-            color = color,
-            shape = shape
-        )
+        return this.background(color)
     }
 }

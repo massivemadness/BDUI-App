@@ -25,16 +25,31 @@ internal class WidgetsRepositoryImpl : WidgetsRepository {
                 "expandable_widget": {
                   "type": "row",
                   "modifier": [
-                    { "fill": "max_width" },
-                    { "padding": { "horizontal": 16, "vertical": 12 } },
-                    { "background": "#CCCCCC" },
-                    { "padding": { "horizontal": 16, "vertical": 12 } }
+                    { 
+                      "type": "fill",
+                      "value": { "fill": "max_width" }
+                    },
+                    { 
+                      "type": "padding",
+                      "value": { "horizontal": 16, "vertical": 12 }
+                    },
+                    { 
+                      "type": "background",
+                      "value": { "color": "#CCCCCC" }
+                    },
+                    { 
+                      "type": "padding",
+                      "value": { "horizontal": 16, "vertical": 12 }
+                    }
                   ],
                   "children": [
                     {
                       "type": "column",
                       "modifier": [
-                        { "weight": 1 }
+                        {
+                          "type": "weight",
+                          "value": { "weight": 1 }
+                        }
                       ],
                       "children": [
                         {
@@ -43,7 +58,10 @@ internal class WidgetsRepositoryImpl : WidgetsRepository {
                             "text": "$.title"
                           },
                           "modifier": [
-                            { "fill": "max_width" }
+                            { 
+                              "type": "fill",
+                              "value": { "fill": "max_width" }
+                            }
                           ]
                         },
                         {
@@ -52,7 +70,10 @@ internal class WidgetsRepositoryImpl : WidgetsRepository {
                             "text": "$.subtitle"
                           },
                           "modifier": [
-                            { "fill": "max_width" }
+                            { 
+                              "type": "fill",
+                              "value": { "fill": "max_width" }
+                            }
                           ]
                         },
                         {
@@ -67,12 +88,18 @@ internal class WidgetsRepositoryImpl : WidgetsRepository {
                                 "text": "Hidden content"
                               },
                               "modifier": [
-                                { "fill": "max_width" }
+                                { 
+                                  "type": "fill",
+                                  "value": { "fill": "max_width" }
+                                }
                               ]
                             }
                           ],
                           "modifier": [
-                            { "fill": "max_width" }
+                            { 
+                              "type": "fill",
+                              "value": { "fill": "max_width" }
+                            }
                           ]
                         }
                       ]
@@ -100,8 +127,14 @@ internal class WidgetsRepositoryImpl : WidgetsRepository {
               "content": {
                 "type": "column",
                 "modifier": [ 
-                  { "fill": "max_size" },
-                  { "padding": { "top": 72 } }
+                  { 
+                    "type": "fill",
+                    "value": { "fill": "max_size" }
+                  },
+                  { 
+                    "type": "padding",
+                    "value": { "top": 72 }
+                  }
                 ],
                 "children": [
                   {
@@ -111,8 +144,14 @@ internal class WidgetsRepositoryImpl : WidgetsRepository {
                       "enabled": true
                     },
                     "modifier": [
-                      { "fill": "max_width" },
-                      { "padding": 16 }
+                      { 
+                        "type": "fill",
+                        "value": { "fill": "max_width" }
+                      },
+                      { 
+                        "type": "padding",
+                        "value": { "all": 16 }
+                      }
                     ]
                   },
                   {
@@ -122,8 +161,14 @@ internal class WidgetsRepositoryImpl : WidgetsRepository {
                       "enabled": true
                     },
                     "modifier": [
-                      { "fill": "max_width" },
-                      { "padding": 16 }
+                      { 
+                        "type": "fill",
+                        "value": { "fill": "max_width" }
+                      },
+                      { 
+                        "type": "padding",
+                        "value": { "all": 16 }
+                      }
                     ]
                   },
                   {
@@ -165,8 +210,14 @@ internal class WidgetsRepositoryImpl : WidgetsRepository {
                       ]   
                     },
                     "modifier": [
-                      { "fill": "max_width" },
-                      { "padding": 16 }
+                      { 
+                        "type": "fill",
+                        "value": { "fill": "max_width" }
+                      },
+                      { 
+                        "type": "padding",
+                        "value": { "all": 16 }
+                      }
                     ]
                   },
                   {

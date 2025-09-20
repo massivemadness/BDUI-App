@@ -9,12 +9,13 @@ internal enum class WidgetType(val value: String) {
     TEXT("text"),
     BUTTON("button"),
     TEXT_FIELD("textfield"),
-    SPACER("spacer");
+    SPACER("spacer"),
+    UNKNOWN("");
 
     companion object {
 
         fun of(value: String?): WidgetType {
-            return checkNotNull(entries.find { it.value == value })
+            return entries.find { it.value == value } ?: UNKNOWN
         }
     }
 }

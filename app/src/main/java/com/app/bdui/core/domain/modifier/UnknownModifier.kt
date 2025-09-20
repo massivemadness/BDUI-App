@@ -1,12 +1,14 @@
 package com.app.bdui.core.domain.modifier
 
 import android.util.Log
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 
-internal object UnknownModifier : ModifierFactory {
+@Immutable
+internal data class UnknownModifier(val type: String?) : ModifierFactory {
 
     override fun Modifier.apply(scope: ModifierScope): Modifier {
-        Log.e("UnknownModifier", "Can't apply unsupported modifier")
+        Log.e("UnknownModifier", "Unknown modifier: $type")
         return this
     }
 }

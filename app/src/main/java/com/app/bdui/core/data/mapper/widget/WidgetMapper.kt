@@ -2,10 +2,10 @@ package com.app.bdui.core.data.mapper.widget
 
 import com.app.bdui.core.data.mapper.action.toDomain
 import com.app.bdui.core.data.mapper.evaluation.toDomain
-import com.app.bdui.core.data.mapper.modifier.base.toDomain
+import com.app.bdui.core.data.mapper.modifier.toDomain
 import com.app.bdui.core.data.mapper.value.toDynamicValue
 import com.app.bdui.core.data.network.action.ActionDto
-import com.app.bdui.core.data.network.modifier.base.ModifierDto
+import com.app.bdui.core.data.network.modifier.ModifierDto
 import com.app.bdui.core.data.network.widget.ScreenDto
 import com.app.bdui.core.data.network.widget.WidgetDto
 import com.app.bdui.core.domain.entity.Screen
@@ -90,6 +90,11 @@ internal fun WidgetDto.toDomain(): Widget {
         )
 
         WidgetType.SPACER -> SpacerWidget(
+            id = id ?: UUID.randomUUID().toString(),
+            modifier = modifier.orEmpty().map(ModifierDto::toDomain),
+        )
+
+        WidgetType.UNKNOWN -> SpacerWidget(
             id = id ?: UUID.randomUUID().toString(),
             modifier = modifier.orEmpty().map(ModifierDto::toDomain),
         )

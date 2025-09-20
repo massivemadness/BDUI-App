@@ -1,7 +1,7 @@
 package com.app.bdui.core.data.network.widget
 
 import com.app.bdui.core.data.network.params.ParamsDto
-import com.app.bdui.core.data.network.modifier.base.ModifierDto
+import com.app.bdui.core.data.network.modifier.ModifierDto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
