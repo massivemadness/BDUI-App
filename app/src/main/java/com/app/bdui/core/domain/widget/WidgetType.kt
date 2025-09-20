@@ -6,6 +6,7 @@ internal enum class WidgetType(val value: String) {
     ROW("row"),
     COLUMN("column"),
     BOX("box"),
+    SCROLL("scroll"),
     TEXT("text"),
     BUTTON("button"),
     TEXT_FIELD("textfield"),

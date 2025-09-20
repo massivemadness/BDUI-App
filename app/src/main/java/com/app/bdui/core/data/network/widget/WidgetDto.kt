@@ -1,6 +1,5 @@
 package com.app.bdui.core.data.network.widget
 
-import com.app.bdui.core.data.network.params.ParamsDto
 import com.app.bdui.core.data.network.modifier.ModifierDto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -15,7 +14,7 @@ internal data class WidgetDto(
     @SerialName("name")
     val name: String? = null,
     @SerialName("params")
-    val params: ParamsDto? = null,
+    val params: WidgetParamsDto? = null,
     @SerialName("state")
     val state: Map<String, JsonElement>? = null,
     @SerialName("modifier")

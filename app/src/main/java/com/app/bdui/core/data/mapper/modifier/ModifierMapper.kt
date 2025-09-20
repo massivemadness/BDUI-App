@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.core.graphics.toColorInt
 import com.app.bdui.core.domain.modifier.ModifierFactory
 import com.app.bdui.core.data.network.modifier.ModifierDto
-import com.app.bdui.core.data.network.modifier.ModifierValueDto
+import com.app.bdui.core.data.network.modifier.ModifierParamsDto
 import com.app.bdui.core.domain.modifier.AlignModifier
 import com.app.bdui.core.domain.modifier.BackgroundModifier
 import com.app.bdui.core.domain.modifier.CornersModifier
@@ -21,98 +21,98 @@ import com.app.bdui.core.domain.entity.FillMode
 import com.app.bdui.core.domain.entity.WrapMode
 
 internal fun ModifierDto.toDomain(): ModifierFactory {
-    checkNotNull(value) { "Modifier must have value" }
+    checkNotNull(params) { "Modifier must have params" }
     return when (ModifierType.of(type)) {
-        ModifierType.SIZE -> mapSize(value)
-        ModifierType.FILL -> mapFillSize(value)
-        ModifierType.WRAP -> mapWrapSize(value)
-        ModifierType.PADDING -> mapPadding(value)
-        ModifierType.BACKGROUND -> mapBackground(value)
-        ModifierType.CORNERS -> mapCorners(value)
-        ModifierType.ALIGN -> mapAlign(value)
-        ModifierType.WEIGHT -> mapWeight(value)
+        ModifierType.SIZE -> mapSize(params)
+        ModifierType.FILL -> mapFillSize(params)
+        ModifierType.WRAP -> mapWrapSize(params)
+        ModifierType.PADDING -> mapPadding(params)
+        ModifierType.BACKGROUND -> mapBackground(params)
+        ModifierType.CORNERS -> mapCorners(params)
+        ModifierType.ALIGN -> mapAlign(params)
+        ModifierType.WEIGHT -> mapWeight(params)
         ModifierType.UNKNOWN -> UnknownModifier(type)
     }
 }
 
-private fun mapSize(value: ModifierValueDto): SizeModifier {
+private fun mapSize(params: ModifierParamsDto): SizeModifier {
     return when {
-        value.size != null -> SizeModifier(
-            width = value.size,
-            height = value.size,
+        params.size != null -> SizeModifier(
+            width = params.size,
+            height = params.size,
         )
         else -> SizeModifier(
-            width = value.width ?: 0,
-            height = value.height ?: 0
+            width = params.width ?: 0,
+            height = params.height ?: 0
         )
     }
 }
 
-private fun mapFillSize(value: ModifierValueDto): FillSizeModifier {
+private fun mapFillSize(params: ModifierParamsDto): FillSizeModifier {
     return FillSizeModifier(
-        fillMode = FillMode.of(value.fill),
-        fraction = value.fraction ?: 1f,
+        fillMode = FillMode.of(params.fill),
+        fraction = params.fraction ?: 1f,
     )
 }
 
-private fun mapWrapSize(value: ModifierValueDto): WrapSizeModifier {
+private fun mapWrapSize(params: ModifierParamsDto): WrapSizeModifier {
     return WrapSizeModifier(
-        wrapMode = WrapMode.of(value.wrap),
+        wrapMode = WrapMode.of(params.wrap),
     )
 }
 
-private fun mapPadding(value: ModifierValueDto): PaddingModifier {
+private fun mapPadding(params: ModifierParamsDto): PaddingModifier {
     return when {
-        value.all != null -> PaddingModifier(
-            start = value.all,
-            top = value.all,
-            end = value.all,
-            bottom = value.all
+        params.all != null -> PaddingModifier(
+            start = params.all,
+            top = params.all,
+            end = params.all,
+            bottom = params.all
         )
-        value.horizontal != null || value.vertical != null -> PaddingModifier(
-            start = value.horizontal ?: value.start ?: 0,
-            top = value.vertical ?: value.top ?: 0,
-            end = value.horizontal ?: value.end ?: 0,
-            bottom = value.vertical ?: value.bottom ?: 0,
+        params.horizontal != null || params.vertical != null -> PaddingModifier(
+            start = params.horizontal ?: params.start ?: 0,
+            top = params.vertical ?: params.top ?: 0,
+            end = params.horizontal ?: params.end ?: 0,
+            bottom = params.vertical ?: params.bottom ?: 0,
         )
         else -> PaddingModifier(
-            start = value.start ?: 0,
-            top = value.top ?: 0,
-            end = value.end ?: 0,
-            bottom = value.bottom ?: 0
+            start = params.start ?: 0,
+            top = params.top ?: 0,
+            end = params.end ?: 0,
+            bottom = params.bottom ?: 0
         )
     }
 }
 
-private fun mapBackground(value: ModifierValueDto): BackgroundModifier {
-    val color = if (value.color != null) {
-        Color(value.color.toColorInt())
+private fun mapBackground(params: ModifierParamsDto): BackgroundModifier {
+    val color = if (params.color != null) {
+        Color(params.color.toColorInt())
     } else {
         Color.Unspecified
     }
     return BackgroundModifier(color)
 }
 
-private fun mapCorners(value: ModifierValueDto): CornersModifier {
+private fun mapCorners(params: ModifierParamsDto): CornersModifier {
     return when {
-        value.all != null -> CornersModifier(
-            topStart = value.all,
-            topEnd = value.all,
-            bottomStart = value.all,
-            bottomEnd = value.all,
+        params.all != null -> CornersModifier(
+            topStart = params.all,
+            topEnd = params.all,
+            bottomStart = params.all,
+            bottomEnd = params.all,
         )
         else -> CornersModifier(
-            topStart = value.topStart ?: 0,
-            topEnd = value.topEnd ?: 0,
-            bottomStart = value.bottomStart ?: 0,
-            bottomEnd = value.bottomEnd ?: 0,
+            topStart = params.topStart ?: 0,
+            topEnd = params.topEnd ?: 0,
+            bottomStart = params.bottomStart ?: 0,
+            bottomEnd = params.bottomEnd ?: 0,
         )
     }
 }
 
-private fun mapAlign(value: ModifierValueDto): AlignModifier {
+private fun mapAlign(params: ModifierParamsDto): AlignModifier {
     return AlignModifier(
-        alignment = when (BduiAlignment.of(value.alignment)) {
+        alignment = when (BduiAlignment.of(params.alignment)) {
             BduiAlignment.TopStart -> Alignment.TopStart
             BduiAlignment.TopCenter -> Alignment.TopCenter
             BduiAlignment.TopEnd -> Alignment.TopEnd
@@ -124,13 +124,13 @@ private fun mapAlign(value: ModifierValueDto): AlignModifier {
             BduiAlignment.BottomEnd -> Alignment.BottomEnd
             else -> null
         },
-        horizontalAlignment = when (BduiAlignment.of(value.alignment)) {
+        horizontalAlignment = when (BduiAlignment.of(params.alignment)) {
             BduiAlignment.Start -> Alignment.Start
             BduiAlignment.Center -> Alignment.CenterHorizontally
             BduiAlignment.End -> Alignment.End
             else -> null
         },
-        verticalAlignment = when (BduiAlignment.of(value.alignment)) {
+        verticalAlignment = when (BduiAlignment.of(params.alignment)) {
             BduiAlignment.Top -> Alignment.Top
             BduiAlignment.Center -> Alignment.CenterVertically
             BduiAlignment.Bottom -> Alignment.Bottom
@@ -139,6 +139,6 @@ private fun mapAlign(value: ModifierValueDto): AlignModifier {
     )
 }
 
-private fun mapWeight(value: ModifierValueDto): WeightModifier {
-    return WeightModifier(weight = value.weight ?: 1f)
+private fun mapWeight(params: ModifierParamsDto): WeightModifier {
+    return WeightModifier(weight = params.weight ?: 1f)
 }

@@ -18,6 +18,7 @@ import com.app.bdui.core.domain.widget.ButtonWidget
 import com.app.bdui.core.domain.widget.ColumnWidget
 import com.app.bdui.core.domain.widget.ConditionalWidget
 import com.app.bdui.core.domain.widget.RowWidget
+import com.app.bdui.core.domain.widget.ScrollWidget
 import com.app.bdui.core.domain.widget.SpacerWidget
 import com.app.bdui.core.domain.widget.TemplateWidget
 import com.app.bdui.core.domain.widget.TextFieldWidget
@@ -30,6 +31,7 @@ import com.app.bdui.core.ui.widget.ButtonWidgetNode
 import com.app.bdui.core.ui.widget.ColumnWidgetNode
 import com.app.bdui.core.ui.widget.ConditionalWidgetNode
 import com.app.bdui.core.ui.widget.RowWidgetNode
+import com.app.bdui.core.ui.widget.ScrollWidgetNode
 import com.app.bdui.core.ui.widget.SpacerWidgetNode
 import com.app.bdui.core.ui.widget.TextFieldWidgetNode
 import com.app.bdui.core.ui.widget.TextWidgetNode
@@ -124,6 +126,13 @@ internal class RenderViewModel(
             is BoxWidget -> BoxWidgetNode(
                 id = widget.id,
                 modifier = widget.modifier,
+                children = widget.children.map { buildWidgetTree(it, templates, ctx) }
+            )
+
+            is ScrollWidget -> ScrollWidgetNode(
+                id = widget.id,
+                modifier = widget.modifier,
+                axis = widget.axis,
                 children = widget.children.map { buildWidgetTree(it, templates, ctx) }
             )
 

@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class ModifierValueDto(
+internal data class ModifierParamsDto(
     @SerialName("size")
     val size: Int? = null,
     @SerialName("width")

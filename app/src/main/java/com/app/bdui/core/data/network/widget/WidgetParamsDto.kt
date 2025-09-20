@@ -1,4 +1,4 @@
-package com.app.bdui.core.data.network.params
+package com.app.bdui.core.data.network.widget
 
 import com.app.bdui.core.data.network.action.ActionDto
 import com.app.bdui.core.data.network.evaluation.EvaluationDto
@@ -6,7 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class ParamsDto(
+internal data class WidgetParamsDto(
     @SerialName("text")
     val text: EvaluationDto? = null,
     @SerialName("enabled")
@@ -15,4 +15,6 @@ internal data class ParamsDto(
     val onClick: List<ActionDto>? = null,
     @SerialName("visible")
     val visible: EvaluationDto? = null,
+    @SerialName("axis")
+    val axis: String? = null,
 )

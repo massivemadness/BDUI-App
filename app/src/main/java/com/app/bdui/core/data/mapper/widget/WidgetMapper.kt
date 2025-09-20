@@ -8,6 +8,7 @@ import com.app.bdui.core.data.network.action.ActionDto
 import com.app.bdui.core.data.network.modifier.ModifierDto
 import com.app.bdui.core.data.network.widget.ScreenDto
 import com.app.bdui.core.data.network.widget.WidgetDto
+import com.app.bdui.core.domain.entity.BduiAxis
 import com.app.bdui.core.domain.entity.Screen
 import com.app.bdui.core.domain.entity.EvalContext
 import com.app.bdui.core.domain.evaluation.Literal
@@ -16,6 +17,7 @@ import com.app.bdui.core.domain.widget.ButtonWidget
 import com.app.bdui.core.domain.widget.ColumnWidget
 import com.app.bdui.core.domain.widget.ConditionalWidget
 import com.app.bdui.core.domain.widget.RowWidget
+import com.app.bdui.core.domain.widget.ScrollWidget
 import com.app.bdui.core.domain.widget.SpacerWidget
 import com.app.bdui.core.domain.widget.TemplateWidget
 import com.app.bdui.core.domain.widget.TextFieldWidget
@@ -64,6 +66,13 @@ internal fun WidgetDto.toDomain(): Widget {
 
         WidgetType.BOX -> BoxWidget(
             id = id ?: UUID.randomUUID().toString(),
+            children = children.orEmpty().map(WidgetDto::toDomain),
+            modifier = modifier.orEmpty().map(ModifierDto::toDomain),
+        )
+
+        WidgetType.SCROLL -> ScrollWidget(
+            id = id ?: UUID.randomUUID().toString(),
+            axis = BduiAxis.of(params?.axis),
             children = children.orEmpty().map(WidgetDto::toDomain),
             modifier = modifier.orEmpty().map(ModifierDto::toDomain),
         )

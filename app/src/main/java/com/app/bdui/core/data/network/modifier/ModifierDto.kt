@@ -7,6 +7,6 @@ import kotlinx.serialization.Serializable
 internal data class ModifierDto(
     @SerialName("type")
     val type: String? = null,
-    @SerialName("value")
-    val value: ModifierValueDto? = null,
+    @SerialName("params")
+    val params: ModifierParamsDto? = null,
 )
