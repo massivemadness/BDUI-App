@@ -9,6 +9,8 @@ import com.app.bdui.core.data.network.modifier.ModifierDto
 import com.app.bdui.core.data.network.widget.ScreenDto
 import com.app.bdui.core.data.network.widget.WidgetDto
 import com.app.bdui.core.domain.entity.BduiAxis
+import com.app.bdui.core.domain.entity.BduiColor
+import com.app.bdui.core.domain.entity.BduiTextStyle
 import com.app.bdui.core.domain.entity.Screen
 import com.app.bdui.core.domain.entity.EvalContext
 import com.app.bdui.core.domain.evaluation.Literal
@@ -80,6 +82,8 @@ internal fun WidgetDto.toDomain(): Widget {
         WidgetType.TEXT -> TextWidget(
             id = id ?: UUID.randomUUID().toString(),
             text = params?.text?.toDomain() ?: Literal(""),
+            textStyle = BduiTextStyle.of(params?.textStyle),
+            textColor = BduiColor.of(params?.color),
             modifier = modifier.orEmpty().map(ModifierDto::toDomain),
         )
 

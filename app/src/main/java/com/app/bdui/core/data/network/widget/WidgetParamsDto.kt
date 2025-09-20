@@ -17,4 +17,8 @@ internal data class WidgetParamsDto(
     val visible: EvaluationDto? = null,
     @SerialName("axis")
     val axis: String? = null,
+    @SerialName("color")
+    val color: String? = null,
+    @SerialName("text_style")
+    val textStyle: String? = null,
 )

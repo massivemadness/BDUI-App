@@ -160,6 +160,8 @@ internal class RenderViewModel(
                 id = widget.id,
                 modifier = widget.modifier,
                 text = widget.text.evalString(ctx, viewModelScope),
+                textStyle = widget.textStyle,
+                textColor = widget.textColor,
             )
 
             is SpacerWidget -> SpacerWidgetNode(
